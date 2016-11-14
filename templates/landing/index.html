@@ -1,0 +1,328 @@
+{% load account socialaccount i18n %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" >
+<head>
+    <title>Новости спорта</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+{% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"/>
+    <link href="http://yandex.st/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+
+    <script>
+       function anichange(objName) {
+
+            if ($(objName).css('display') == 'none') {$(objName).animate({height: 'show'}, 400);
+
+            } else {
+                $(objName).animate({height: 'hide'}, 400);
+            }
+
+        }
+    </script>
+
+<script type="text/javascript">
+var lastResFind=""; // последний удачный результат
+var copy_page=""; // копия страницы в ихсодном виде
+function TrimStr(s) {
+s = s.replace( /^-_=\s+/gi, '');
+return s.replace( /-_=\s+$/gi, '');
+}
+function FindOnPage(inputId) {//ищет текст на странице, в параметр передается ID поля для ввода
+  var obj = window.document.getElementById(inputId);
+  var textToFind;
+
+  if (obj) {
+    textToFind = TrimStr(obj.value);//обрезаем пробелы
+  } else {
+    alert("Введенная фраза не найдена");
+    return;
+  }
+  if (textToFind == "") {
+    alert("Вы ничего не ввели");
+    return;
+  }
+
+  if(document.body.innerHTML.indexOf(textToFind)=="-1")
+  alert("Ничего не найдено, проверьте правильность ввода!");
+
+  if(copy_page.length>0)
+        document.body.innerHTML=copy_page;
+  else copy_page=document.body.innerHTML;
+  document.body.innerHTML = document.body.innerHTML.replace(eval("/name="+lastResFind+"/gi")," ");//стираем предыдущие якори для скрола
+  document.body.innerHTML = document.body.innerHTML.replace(eval("/"+textToFind+"/gi"),"<a name="+textToFind+" style='background:#8B0000; color:white; text-decoration:none;'>"+textToFind+"</a>"); //Заменяем найденный текст ссылками с якорем;
+  lastResFind=textToFind; // сохраняем фразу для поиска, чтобы в дальнейшем по ней стереть все ссылки
+  window.location = '#'+textToFind;//перемещаем скрол к последнему найденному совпадению
+ }
+</script>
+
+
+
+
+<script type="text/javascript" >
+        $(function() {
+            var width=$('.slider-box').width();                     // Ширина слайдера.
+            interval = 4000;                                    // Интервал смены слайдов.
+            $('.slider img:last').clone().prependTo('.slider');     // Копия последнего слайда помещается в начало.
+            $('.slider img').eq(1).clone().appendTo('.slider');     // Копия первого слайда помещается в конец.
+            $('.slider').css('margin-left', -width);                // Контейнер .slider сдвигается влево на ширину одного слайда.
+            setInterval('animation()',interval);                    // Запускается функция animation(), выполняющая смену слайдов.
+        });
+        function animation(){
+            var margin = parseInt($('.slider').css('marginLeft'));  // Текущее смещение блока .slider
+            width=$('.slider-box').width();                     // Ширина слайдера.
+                    slidersAmount=$('.slider').children().length;       // Количество слайдов в слайдере.
+            if(margin!=(-width*(slidersAmount-1)))                  // Если текущий слайд не последний,
+            {
+                margin=margin-width;                                  // то значение margin уменьшается на ширину слайда.
+            }else{                                                  // Если показан последний слайд,
+                $('.slider').css('margin-left', -width);              // то блок .slider возвращается в начальное положение,
+                margin=-width*2;
+            }
+            $('.slider').animate({marginLeft:margin},1000);          // Блок .slider смещается влево на 1 слайд.
+        }
+</script>
+
+
+    <style type="text/css">
+        .ya-page_js_yes .ya-site-form_inited_no {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript">
+        (function(w,d,c){
+            var s=d.createElement('script'),
+                    h=d.getElementsByTagName('script')[0],
+                    e=d.documentElement;
+            if((' '+e.className+' ').indexOf(' ya-page_js_yes ')===-1){
+                e.className+=' ya-page_js_yes';
+            }
+                s.type='text/javascript';
+            s.async=true;s.charset='utf-8';
+            s.src=(d.location.protocol==='https:'?'https:':'http:')+'//site.yandex.net/v2.0/js/all.js';
+            h.parentNode.insertBefore(s,h);
+            (w[c]||(w[c]=[])).push(function(){Ya.Site.Form.init()})})(window,document,'yandex_site_callbacks');
+    </script>
+
+
+</head>
+<body>
+
+
+<!-- Контент -->
+<div class="content" >
+<div class="row" style="color: #ffffff; background-color: darkred;padding-top: 10px; padding-bottom: 10px; ">
+            <div class="col-sm-8">
+                <h2 style=" font-weight: bolder; font-family: Arial, sans-serif; text-align: left; padding-left: 10px; ">Новости спорта</h2>
+            </div>
+
+       <div class="col-sm-4" style=" color: #ffffff; background-color: darkred; text-align: right; ">
+           <!--<label for="text-to-find"></label><input style="color: #000000;" type="text" id="text-to-find" value="">
+           <input type="button" style="color: #000000;"  onclick="FindOnPage('text-to-find'); return false;" value="Искать"/>-->
+                    {% if user.is_authenticated%}
+                        {% for account in user.socialaccount_set.all %}
+                            <div class="" style="color: #ffffff; float: right; padding-right: 5px;">
+                                <img style="border-radius: 20px; width: 40px; height: 40px;" src="{{ account.get_avatar_url }}"/>
+                                {{ user  }}<br>
+                                <form method="post" action="{% url 'account_logout' %}">
+                                  {% csrf_token %}
+                                  {% if redirect_field_value %}
+                                      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                                  {% endif %}
+                               <div style="float: right;">
+                                    <button type="submit" style="background-color: darkred; border: none; color: white">{% trans 'Выйти' %}</button>
+                                   <div style="float:left;">
+                                        <input type="image" style="width: 20px; height: 20px;" src="{% static 'img/exit.png' %}">
+                                   </div>
+                               </div>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                         <a href="{% provider_login_url "vk" %}" style="text-decoration: none">
+                            <img style="width: 30px; height: 30px;" src="{% static 'img/vk.png' %}" >
+                        </a>
+                        <a href="{% provider_login_url "google" %}" style="text-decoration: none">
+                            <img style="width: 30px; height: 30px;" src="{% static 'img/g+.png' %}" >
+                        </a>
+
+
+                    {% endif %}
+
+           <div class="ya-site-form ya-site-form_inited_no" style="width: 200px; padding-right: 5px; float: right;"
+                             onclick="return {'action':'https://yandex.ru/search/site/','arrow':false,'bg':'transparent',
+                             'fontsize':12,'fg':'#000000','language':'ru','logo':'rb','publicname':'Новости спорта','suggest':true,
+                             'target':'_blank','tld':'ru','type':2,'usebigdictionary':true,'searchid':2285188,'input_fg':'#000000',
+                             'input_bg':'#ffffff','input_fontStyle':'normal','input_fontWeight':'normal','input_placeholder':'Найти...',
+                             'input_placeholderColor':'#000000','input_borderColor':'#ffffff'}">
+                            <form action="https://yandex.ru/search/site/" method="get" target="_blank" accept-charset="utf-8">
+                                <input type="hidden" name="searchid" value="2285188"/><input type="hidden" name="l10n" value="ru"/>
+                                <input type="hidden" name="reqenc" value=""/>
+                                <label>
+                                    <input type="search" name="text" value=""/>
+                                </label>
+                                <input type="submit" value="Найти"/>
+                            </form>
+                        </div>
+       </div>
+</div>
+
+<a href="http://rfpl.org" style="color: #000000; cursor: pointer; text-decoration: none">
+    <div class="row" style="background: #1C333C; background-size: 50%;">
+        <div id="rfpl0" class="col-sm-4" style="font-weight: bold; height: auto; border: none;font-size: 2rem; color: #ffffff;">
+            Российская Футбольная  <br>
+            Премьер-Лига
+        </div>
+        <div id="rfpl" class="col-sm-4" style=" padding-top:0 ;font-weight: bold; height: auto; border: none;font-size: 2rem; color: #ffffff;">
+            <img src="{% static 'img/logo.png' %}" style="width: 40%; min-width: 80px;  opacity: 1">
+        </div>
+        <div id="rfpl1" class="col-sm-4" style="font-weight: bold; height: auto; border: none;font-size: 2rem; color: #ffffff;">
+            Будь в курсе событий  <br>
+            Твоего чемпионата!
+        </div>
+    </div>
+</a>
+
+<div class="row new">
+    <div class="col-sm-12 Title_of_News">
+        Топ дня
+    </div>
+    <div class="col-sm-4"  style="padding-top: 0; ">
+<!--slider-->
+        <div class="slider-box">
+            <div class="slider">
+                <img src="{% static 'img/footb1.jpg' %} ">
+                <img src="{% static 'img/slider_hockey_1.jpg' %} ">
+                <img src="{% static 'img/slider_basketball_1.jpg' %} ">
+                <img src="{% static 'img/slider_tennis_2.jpg' %} ">
+                <img src="{% static 'img/slider_car_1.jpg' %} ">
+                <img src="{% static 'img/slider_mma_2.jpg' %} ">
+                <img src="{% static 'img/slider_football_5.jpg' %} ">
+                <img src="{% static 'img/slider_hockey_2.jpg' %} ">
+                <img src="{% static 'img/slider_basketball_3.jpg' %} ">
+                <img src="{% static 'img/slider_tennis_1.jpg' %} ">
+                <img src="{% static 'img/slider_car_2.jpg' %} ">
+                <img src="{% static 'img/slider_mma_3.jpg' %} ">
+                <img src="{% static 'img/slider_football_2.jpg' %} ">
+                <img src="{% static 'img/slider_basketball_2.jpg' %} ">
+                <img src="{% static 'img/slider_tennis_3.jpg' %} ">
+                <img src="{% static 'img/slider_car_3.jpg' %} ">
+                <img src="{% static 'img/slider_mma_1.jpg' %} ">
+                <img src="{% static 'img/slider_football_3.jpg' %} ">
+                <img src="{% static 'img/slider_hockey_1.jpg' %} ">
+                <img src="{% static 'img/slider_basketball_4.jpg' %} ">
+                <img src="{% static 'img/slider_tennis_4.jpg' %} ">
+                <img src="{% static 'img/slider_car_4.jpg' %} ">
+                <img src="{% static 'img/slider_football_1.jpg' %} ">
+                <img src="{% static 'img/slider_hockey_4.jpg' %} ">
+                <img src="{% static 'img/slider_basketball_5.jpg' %} ">
+                <img src="{% static 'img/slider_tennis_4.jpg' %} ">
+                <img src="{% static 'img/slider_car_5.jpg' %} ">
+                <img src="{% static 'img/slider_football_4.jpg' %} ">
+                <img src="{% static 'img/slider_hockey_5.jpg' %} ">
+                <img src="{% static 'img/slider_tennis_6.jpg' %} ">
+                <img src="{% static 'img/slider_car_6.jpg' %} ">
+            </div>
+        </div>
+<!--slider end-->
+    </div>
+    <div class="col-sm-8 Body_of_News" style="text-align: left;">
+        <script src="//news.yandex.ru/ru/sport5.utf8.js" charset="utf-8"></script><script>(function(w,rubric){var data=w[rubric];if(!data||!data.length){return;}function formatDate(ts){var d=new Date(ts*1000);return d.getHours()+':'+('0'+d.getMinutes()).substr(-2);}var html='<div class="ya-news__title"><a href="//news.yandex.ru/" target="_blank">Яндекс.Новости</a></div>';data.sort(function(a,b){return a.date==b.date?a.time<b.time?1:a.time>b.time?-1:0:a.date<b.date?1:a.date>b.date?-1:void 0});for(var i=0;i<data.length;i++){var item=data[i];html+='<div><span class="ya-news__date">'+item.date+'&nbsp;'+item.time+'</span><span class="ya-news__title"><a href="'+item.url+'" target="_blank">'+item.title+'</a></span></div><div class="ya-news__description">'+item.descr+'</div>';}html+='<div class="ya-news__all"><a href="//news.yandex.ru/" target="_blank">Все новости на '+formatDate(w.update_time_t)+'</a></div>';document.write(html);}(window, 'm_sport'));</script>
+    </div>
+</div>
+
+<div class="row new">
+    <div class="col-sm-12 Title_of_News">
+        Футбол
+    </div>
+    <div class="col-sm-4" style="left: 0;">
+        <img src="{% static 'img/footbal.jpg' %} ">
+    </div>
+    <div class="col-sm-8 Body_of_News" style="text-align: left;">
+        <script src="//news.yandex.ru/ru/football5.utf8.js" charset="utf-8"></script><script>(function(w,rubric){var data=w[rubric];if(!data||!data.length){return;}function formatDate(ts){var d=new Date(ts*1000);return d.getHours()+':'+('0'+d.getMinutes()).substr(-2);}var html='<div class="ya-news__title"><a href="//news.yandex.ru/" target="_blank">Яндекс.Новости</a></div>';data.sort(function(a,b){return a.date==b.date?a.time<b.time?1:a.time>b.time?-1:0:a.date<b.date?1:a.date>b.date?-1:void 0});for(var i=0;i<data.length;i++){var item=data[i];html+='<div><span class="ya-news__date">'+item.date+'&nbsp;'+item.time+'</span><span class="ya-news__title"><a href="'+item.url+'" target="_blank">'+item.title+'</a></span></div><div class="ya-news__description">'+item.descr+'</div>';}html+='<div class="ya-news__all"><a href="//news.yandex.ru/" target="_blank">Все новости на '+formatDate(w.update_time_t)+'</a></div>';document.write(html);}(window, 'm_football'));</script>
+    </div>
+</div>
+
+<div class="row new">
+    <div class="col-sm-12 Title_of_News">
+        Теннис
+    </div>
+    <div class="col-sm-4" style="left: 0;">
+        <img src="{% static 'img/tennis.jpg' %} ">
+    </div>
+    <div class="col-sm-8 Body_of_News" style="text-align: left;">
+       <script src="//news.yandex.ru/ru/tennis5.utf8.js" charset="utf-8"></script><script>(function(w,rubric){var data=w[rubric];if(!data||!data.length){return;}function formatDate(ts){var d=new Date(ts*1000);return d.getHours()+':'+('0'+d.getMinutes()).substr(-2);}var html='<div class="ya-news__title"><a href="//news.yandex.ru/" target="_blank">Яндекс.Новости</a></div>';data.sort(function(a,b){return a.date==b.date?a.time<b.time?1:a.time>b.time?-1:0:a.date<b.date?1:a.date>b.date?-1:void 0});for(var i=0;i<data.length;i++){var item=data[i];html+='<div><span class="ya-news__date">'+item.date+'&nbsp;'+item.time+'</span><span class="ya-news__title"><a href="'+item.url+'" target="_blank">'+item.title+'</a></span></div><div class="ya-news__description">'+item.descr+'</div>';}html+='<div class="ya-news__all"><a href="//news.yandex.ru/" target="_blank">Все новости на '+formatDate(w.update_time_t)+'</a></div>';document.write(html);}(window, 'm_tennis'));</script>
+    </div>
+</div>
+
+<div class="row new">
+    <div class="col-sm-12 Title_of_News">
+        Хоккей
+    </div>
+    <div class="col-sm-4" style="left: 0;">
+        <img src="{% static 'img/hockey.jpg' %} ">
+    </div>
+    <div class="col-sm-8 Body_of_News" style="text-align: left;">
+        <script src="//news.yandex.ru/ru/hockey5.utf8.js" charset="utf-8"></script><script>(function(w,rubric){var data=w[rubric];if(!data||!data.length){return;}function formatDate(ts){var d=new Date(ts*1000);return d.getHours()+':'+('0'+d.getMinutes()).substr(-2);}var html='<div class="ya-news__title"><a href="//news.yandex.ru/" target="_blank">Яндекс.Новости</a></div>';data.sort(function(a,b){return a.date==b.date?a.time<b.time?1:a.time>b.time?-1:0:a.date<b.date?1:a.date>b.date?-1:void 0});for(var i=0;i<data.length;i++){var item=data[i];html+='<div><span class="ya-news__date">'+item.date+'&nbsp;'+item.time+'</span><span class="ya-news__title"><a href="'+item.url+'" target="_blank">'+item.title+'</a></span></div><div class="ya-news__description">'+item.descr+'</div>';}html+='<div class="ya-news__all"><a href="//news.yandex.ru/" target="_blank">Все новости на '+formatDate(w.update_time_t)+'</a></div>';document.write(html);}(window, 'm_hockey'));</script>
+    </div>
+</div>
+
+<div class="row new">
+    <div class="col-sm-12 Title_of_News">
+        Баскетбол
+    </div>
+    <div class="col-sm-4" style="left: 0;">
+        <img src="{% static 'img/basketball.jpg' %} ">
+    </div>
+    <div class="col-sm-8 Body_of_News" style="text-align: left;">
+        <script src="//news.yandex.ru/ru/basketball5.utf8.js" charset="utf-8"></script><script>(function(w,rubric){var data=w[rubric];if(!data||!data.length){return;}function formatDate(ts){var d=new Date(ts*1000);return d.getHours()+':'+('0'+d.getMinutes()).substr(-2);}var html='<div class="ya-news__title"><a href="//news.yandex.ru/" target="_blank">Яндекс.Новости</a></div>';data.sort(function(a,b){return a.date==b.date?a.time<b.time?1:a.time>b.time?-1:0:a.date<b.date?1:a.date>b.date?-1:void 0});for(var i=0;i<data.length;i++){var item=data[i];html+='<div><span class="ya-news__date">'+item.date+'&nbsp;'+item.time+'</span><span class="ya-news__title"><a href="'+item.url+'" target="_blank">'+item.title+'</a></span></div><div class="ya-news__description">'+item.descr+'</div>';}html+='<div class="ya-news__all"><a href="//news.yandex.ru/" target="_blank">Все новости на '+formatDate(w.update_time_t)+'</a></div>';document.write(html);}(window, 'm_basketball'));</script>
+    </div>
+</div>
+
+<div class="row new">
+    <div class="col-sm-12 Title_of_News">
+        Единоборства
+    </div>
+    <div class="col-sm-4" style="left: 0;">
+        <img src="{% static 'img/slider_mma_4.jpg' %} ">
+    </div>
+    <div class="col-sm-8 Body_of_News" style="text-align: left;">
+        <script src="//news.yandex.ru/ru/martial_arts5.utf8.js" charset="utf-8"></script><script>(function(w,rubric){var data=w[rubric];if(!data||!data.length){return;}function formatDate(ts){var d=new Date(ts*1000);return d.getHours()+':'+('0'+d.getMinutes()).substr(-2);}var html='<div class="ya-news__title"><a href="//news.yandex.ru/" target="_blank">Яндекс.Новости</a></div>';data.sort(function(a,b){return a.date==b.date?a.time<b.time?1:a.time>b.time?-1:0:a.date<b.date?1:a.date>b.date?-1:void 0});for(var i=0;i<data.length;i++){var item=data[i];html+='<div><span class="ya-news__date">'+item.date+'&nbsp;'+item.time+'</span><span class="ya-news__title"><a href="'+item.url+'" target="_blank">'+item.title+'</a></span></div><div class="ya-news__description">'+item.descr+'</div>';}html+='<div class="ya-news__all"><a href="//news.yandex.ru/" target="_blank">Все новости на '+formatDate(w.update_time_t)+'</a></div>';document.write(html);}(window, 'm_martial_arts'));</script>
+    </div>
+</div>
+
+<div class="row new">
+
+<div class="col-sm-12 Title_of_News">
+        Автоспорт
+    </div>
+    <div class="col-sm-4" style="left: 0;">
+        <img src="{% static 'img/car1.jpg' %} ">
+    </div>
+    <div class="col-sm-8 Body_of_News" style="text-align: left;">
+        <script src="//news.yandex.ru/ru/auto_racing5.utf8.js" charset="utf-8"></script><script>(function(w,rubric){var data=w[rubric];if(!data||!data.length){return;}function formatDate(ts){var d=new Date(ts*1000);return d.getHours()+':'+('0'+d.getMinutes()).substr(-2);}var html='<div class="ya-news__title"><a href="//news.yandex.ru/" target="_blank">Яндекс.Новости</a></div>';data.sort(function(a,b){return a.date==b.date?a.time<b.time?1:a.time>b.time?-1:0:a.date<b.date?1:a.date>b.date?-1:void 0});for(var i=0;i<data.length;i++){var item=data[i];html+='<div><span class="ya-news__date">'+item.date+'&nbsp;'+item.time+'</span><span class="ya-news__title"><a href="'+item.url+'" target="_blank">'+item.title+'</a></span></div><div class="ya-news__description">'+item.descr+'</div>';}html+='<div class="ya-news__all"><a href="//news.yandex.ru/" target="_blank">Все новости на '+formatDate(w.update_time_t)+'</a></div>';document.write(html);}(window, 'm_auto_racing'));</script>
+    </div>
+</div>
+
+<div class="row new">
+    <div class="col-sm-12 Title_of_News">
+    </div>
+</div>
+
+</div>
+<!--// Контент -->
+
+<!-- Футер -->
+<div class="footer" style="text-align: center; padding-bottom: 15px;">
+    <hr style="width:100%; color: black;"/>
+    &copy; Всегда свежие новости, начиная с 2016
+</div>
+<!--// Футер -->
+</body>
+</html>

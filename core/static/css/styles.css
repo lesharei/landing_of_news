@@ -1,0 +1,182 @@
+        .content {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .col-sm-4{
+            padding-top: 20px;
+
+        }
+
+
+        .row {
+            text-align: center;
+        }
+
+        .Title_of_News {
+            height: auto;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            font-size: 2rem;
+            color: white;
+            background-color: darkred;
+        }
+
+        .Body_of_News{
+            height: auto;
+            font-family: Arial, sans-serif;
+            font-weight: lighter;
+            font-size: 1.5rem;
+        }
+        .new{
+            border-left: 3px solid darkred ;
+            border-right: 3px solid darkred ;
+        }
+
+        .Body_of_Important_News {
+            text-align: left;
+        }
+
+        .Title_of_Ordinary_News {
+            font-weight: bold;
+            color: white;
+            background-color: darkred;
+        }
+
+        .Body_of_Ordinary_News {
+            text-align: left;
+
+        }
+        .gsc-control-cse
+        {
+            padding: 0 !important;
+            border: 0 !important;
+            background-color: transparent !important;
+            color: #000000;
+        }
+        .popup-checkbox, .popup {
+            display: none;
+        }
+
+        .popup {
+            position: fixed;
+            z-index: 10;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+        .popup:before {
+            display: block;
+            content: ' ';
+            position: absolute;
+            z-index: 1;
+            width: 100%;
+            height: auto;
+            top: 0;
+            left: 0;
+            background-color: #000;
+            opacity: .5;
+        }
+        .popup-content {
+            font-family: Cantarell , Arial, sans-serif;
+            font-weight: lighter;
+            font-size: 2rem;
+            width: 80%;
+            height: 80%;
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .popup-shower {
+            text-decoration: none;
+            position: absolute;
+            color: darkred;
+            background: #ffffff;
+            cursor: pointer;
+        }
+        .popup-shower:hover {
+            color: #ffffff;
+            background: darkred;
+            text-decoration: none;
+        }
+        .popup-closer {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: #999;
+            font-size: 20px;
+            border: 1px solid #999;
+            display: block;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .popup-closer:hover {
+            background-color: #eee;
+        }
+        .popup-checkbox:checked + .popup {
+            opacity: 1;
+            display: block;
+        }
+
+        .ya-news__title{
+        font-size:100%;
+        font-weight:700;
+        margin-bottom:.5em
+        }
+        .ya-news__date{
+            font-size:85%;
+            margin-right:.5em
+        }
+        .ya-news__informer{
+            font-size:85%;
+            margin-bottom:.3em
+        }
+        .ya-news__description{
+            font-size:85%;
+            margin-bottom:.5em
+        }
+        .ya-news__all{
+            font-size:80%;
+            margin-top:.3em
+        }
+        /* for slider */
+        .slider-box{
+            max-width: 300px;
+            width:100%;
+            margin:20px auto;
+            overflow:hidden;
+        }
+        .slider{
+            position:relative;
+            width:10000px;
+            height:auto;
+        }
+        .slider img{
+            max-width: 300px;
+            width: 100%;
+            max-height: 400px ;
+            float:left;
+            z-index:0;
+        }
+
+        .col-sm-4 img{
+            max-width: 300px;
+            width: 100%;
+            max-height: 400px ;
+        }

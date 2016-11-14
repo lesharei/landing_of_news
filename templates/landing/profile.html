@@ -1,0 +1,109 @@
+{% load account socialaccount %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" >
+<head>
+    <title>News</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+{% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"/>
+    <link href="http://yandex.st/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+
+    <script>
+       function anichange(objName) {
+
+            if ($(objName).css('display') == 'none') {$(objName).animate({height: 'show'}, 400);
+
+            } else {
+                $(objName).animate({height: 'hide'}, 400);
+            }
+
+        }
+    </script>
+
+<script type="text/javascript">
+var lastResFind=""; // последний удачный результат
+var copy_page=""; // копия страницы в ихсодном виде
+function TrimStr(s) {
+s = s.replace( /^-_=\s+/gi, '');
+return s.replace( /-_=\s+$/gi, '');
+}
+function FindOnPage(inputId) {//ищет текст на странице, в параметр передается ID поля для ввода
+  var obj = window.document.getElementById(inputId);
+  var textToFind;
+
+  if (obj) {
+    textToFind = TrimStr(obj.value);//обрезаем пробелы
+  } else {
+    alert("Введенная фраза не найдена");
+    return;
+  }
+  if (textToFind == "") {
+    alert("Вы ничего не ввели");
+    return;
+  }
+
+  if(document.body.innerHTML.indexOf(textToFind)=="-1")
+  alert("Ничего не найдено, проверьте правильность ввода!");
+
+  if(copy_page.length>0)
+        document.body.innerHTML=copy_page;
+  else copy_page=document.body.innerHTML;
+  document.body.innerHTML = document.body.innerHTML.replace(eval("/name="+lastResFind+"/gi")," ");//стираем предыдущие якори для скрола
+  document.body.innerHTML = document.body.innerHTML.replace(eval("/"+textToFind+"/gi"),"<a name="+textToFind+" style='background:#8B0000; color:white; text-decoration:none;'>"+textToFind+"</a>"); //Заменяем найденный текст ссылками с якорем;
+  lastResFind=textToFind; // сохраняем фразу для поиска, чтобы в дальнейшем по ней стереть все ссылки
+  window.location = '#'+textToFind;//перемещаем скрол к последнему найденному совпадению
+ }
+</script>
+
+
+
+
+<script type="text/javascript" >
+        $(function() {
+            var width=$('.slider-box').width();                     // Ширина слайдера.
+            interval = 4000;                                    // Интервал смены слайдов.
+            $('.slider img:last').clone().prependTo('.slider');     // Копия последнего слайда помещается в начало.
+            $('.slider img').eq(1).clone().appendTo('.slider');     // Копия первого слайда помещается в конец.
+            $('.slider').css('margin-left', -width);                // Контейнер .slider сдвигается влево на ширину одного слайда.
+            setInterval('animation()',interval);                    // Запускается функция animation(), выполняющая смену слайдов.
+        });
+        function animation(){
+            var margin = parseInt($('.slider').css('marginLeft'));  // Текущее смещение блока .slider
+            width=$('.slider-box').width();                     // Ширина слайдера.
+                    slidersAmount=$('.slider').children().length;       // Количество слайдов в слайдере.
+            if(margin!=(-width*(slidersAmount-1)))                  // Если текущий слайд не последний,
+            {
+                margin=margin-width;                                  // то значение margin уменьшается на ширину слайда.
+            }else{                                                  // Если показан последний слайд,
+                $('.slider').css('margin-left', -width);              // то блок .slider возвращается в начальное положение,
+                margin=-width*2;
+            }
+            $('.slider').animate({marginLeft:margin},1000);          // Блок .slider смещается влево на 1 слайд.
+        }
+</script>
+</head>
+<body>
+{% if user %}
+    <h1>Welcome, {{user.first_name}}</h1>
+    <p>Following is the Extra information that facebook has provided to allauth:</p>
+    {% for account in user.socialaccount_set.all %}
+        <h2 style="text-transform:capitalize;">{{ account.provider }} account data</h2>
+        <p><img width="50" height="50" src="{{ account.get_avatar_url }}" /></p>
+        <p>UID: <a href="{{account.extra_data.link }}">{{ account.uid }}</a></p>
+        <p>Username: {{ account.extra_data.username }}</p>
+        <p>First Name: {{ account.extra_data.first_name }}</p>
+        <p>Last Name: {{ account.extra_data.last_name }}</p>
+        <p>Profile Link: <a href="{{ account.extra_data.link }}">{{ account.extra_data.link }}</a></p>
+    {% endfor %}
+{% else %}
+
+{% endif %}
+</body>
+</html>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="PROJECT" libraries="{auto_racing5.utf8, basketball5.utf8, bootstrap, football5.utf8, hockey5.utf8, jquery, jquery-2.0.2, martial_arts5.utf8, sport5.utf8, tennis5.utf8, widget}" />
+  </component>
+</project>
